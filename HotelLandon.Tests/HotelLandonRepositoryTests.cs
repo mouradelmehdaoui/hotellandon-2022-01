@@ -1,6 +1,7 @@
 ﻿using HotelLandon.Data;
 using HotelLandon.Models;
 using HotelLandon.Repository;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
@@ -57,5 +58,21 @@ namespace HotelLandon.Tests
         {
             (await repository.GetAllAsync()).Where(e => e.Id == 1);
         }
+
+        [Fact]
+        public async Task GetAsync()
+        {
+            //Arrange  
+            var postId = 5;
+
+            //Act 
+            var data = await repository.DeleteAsync(postId);
+
+            //Assert  
+            Assert.IsType<NotFoundResult>(data);
+        }
+
+
+
     }
 }
