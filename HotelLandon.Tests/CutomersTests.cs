@@ -118,13 +118,13 @@ namespace HotelLandon.Tests
             // Arrange
             Customer customer = new()
             {
-                BirthDate = new DateTime(2011, 2, 19)
+                BirthDate = new DateTime(2011, 02, 19)
 
          
                 };
 
 
-            string dtNaissance = customer.BirthDate.ToString("dd/M/yyyy");
+            string dtNaissance = customer.BirthDate.ToString("dd/MM/yyyy");
 
             // Act
 
