@@ -118,8 +118,13 @@ namespace HotelLandon.Tests
             // Arrange
             Customer customer = new()
             {
-                BirthDate = Faker.Date.Birthday(18)
-            };
+                BirthDate = new DateTime(2011, 2, 19)
+
+         
+                };
+
+
+            string dtNaissance = customer.BirthDate.ToString("dd/M/yyyy");
 
             // Act
 
@@ -128,10 +133,10 @@ namespace HotelLandon.Tests
             Regex regex = new Regex(@"(((0|1)[0-9]|2[0-9]|3[0-1])\/(0[1-9]|1[0-2 ])\/((19|20)\d\d))$");
 
             //Vérifiez si la date saisie est une date valide.
-            isValid = DateTime.TryParseExact(customer.BirthDate.ToString(), "dd/MM/yyyy", new CultureInfo("en-GB"), DateTimeStyles.None, out dt);
+            isValid = DateTime.TryParseExact(dtNaissance, "dd/MM/yyyy", new CultureInfo("en-GB"), DateTimeStyles.None, out dt);
 
             //Vérifiez si la date est entrée au format jj/MM/aaaa.
-            Assert.False(!regex.IsMatch(customer.BirthDate.ToString()));
+            Assert.False(!regex.IsMatch(dtNaissance));
             Assert.True(isValid);
 
 
