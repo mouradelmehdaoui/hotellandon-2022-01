@@ -1,12 +1,17 @@
 using HotelLandon.Models;
 using HotelLandon.Repository;
 using System;
+using System.Globalization;
+using System.Text.RegularExpressions;
 using Xunit;
 
 namespace HotelLandon.Tests
 {
     public class CutomersTests
     {
+        private DateTime dt;
+        private bool isValid;
+
         [Fact]
         public void Test1()
         {
@@ -39,7 +44,7 @@ namespace HotelLandon.Tests
         }
 
         [Fact]
-        public void Test3()
+        public void DateDeNaissance()
         {
             // Arrange
             Customer customer = new()
@@ -55,5 +60,86 @@ namespace HotelLandon.Tests
                 // Ajouter une vérification au niveau du Customer
             });
         }
+
+        [Fact]
+        public void FirstName_Espace_TraitUnion()
+        {
+            // Arrange
+            // Arrange : initialiser vos variables
+            Customer customer = new()
+            {
+                FirstName = "El mehdaoui"
+            };
+            Customer customer2 = new()
+            {
+                FirstName = "El-mehdaoui"
+            }; 
+            Customer customer3 = new()
+            {
+                FirstName = "El  mehdaoui"
+            }; 
+            
+            Customer customer4 = new()
+            {
+                FirstName = "El--mehdaoui"
+            };
+
+            string pattern = @"^\p{L}*[- ]?\p{L}*$";
+            Regex rgx = new Regex(pattern);
+
+            // Act : Exécuter les opérations nécessaires
+
+
+            // Assert : Vérifiez que le résultat attendu est égale à celui produit
+            Assert.False(!Regex.IsMatch(customer.FirstName, pattern));
+            Assert.False(!Regex.IsMatch(customer2.FirstName, pattern));
+            Assert.True(!Regex.IsMatch(customer3.FirstName, pattern));
+            Assert.True(!Regex.IsMatch(customer4.FirstName, pattern));
+        }
+
+        [Fact]
+        public void FirstName_Not_Empty()
+        {
+            // Arrange
+            Customer customer = new()
+            {
+                FirstName = ""
+            };
+
+            // Act
+
+            // Assert
+            Assert.True(String.IsNullOrWhiteSpace(customer.FirstName));
+        }
+
+        [Fact]
+        public void DateDeNaissance_BonFormat_DateValide()
+        {
+            // Arrange
+            Customer customer = new()
+            {
+                BirthDate = Faker.Date.Birthday(18)
+            };
+
+            // Act
+
+
+            //Vérifiez si la date est entrée au format jj/MM/aaaa.
+            Regex regex = new Regex(@"(((0|1)[0-9]|2[0-9]|3[0-1])\/(0[1-9]|1[0-2 ])\/((19|20)\d\d))$");
+
+            //Vérifiez si la date saisie est une date valide.
+            isValid = DateTime.TryParseExact(customer.BirthDate.ToString(), "dd/MM/yyyy", new CultureInfo("en-GB"), DateTimeStyles.None, out dt);
+
+            //Vérifiez si la date est entrée au format jj/MM/aaaa.
+            Assert.False(!regex.IsMatch(customer.BirthDate.ToString()));
+            Assert.True(isValid);
+
+
+            // Assert
+
+        }
+
+
+
     }
 }
