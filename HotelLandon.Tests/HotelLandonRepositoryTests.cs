@@ -63,13 +63,13 @@ namespace HotelLandon.Tests
         public async Task DeletAsync()
         {
             //Arrange  
-            var postId = 5;
+            var postId = 3;
 
             //Act 
             var data = await repository.DeleteAsync(postId);
 
             //Assert  
-            Assert.IsType<NotFoundResult>(data);
+            Assert.True(data);
         }
 
 
