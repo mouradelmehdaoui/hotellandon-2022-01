@@ -60,7 +60,7 @@ namespace HotelLandon.Tests
         }
 
         [Fact]
-        public async Task GetAsync()
+        public async Task DeletAsync()
         {
             //Arrange  
             var postId = 5;
