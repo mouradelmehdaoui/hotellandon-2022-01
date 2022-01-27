@@ -14,7 +14,7 @@ namespace HotelLandon.Tests
 
     }
 
-    public class HotelLandonRepositoryTests<TEntity>
+    public abstract class HotelLandonRepositoryTests<TEntity>
         where TEntity : EntityBase, new()
 
     {
